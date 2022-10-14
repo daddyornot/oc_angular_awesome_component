@@ -4,7 +4,7 @@ html, body { height: 100%; }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-image: url('./assets/images/608e4226bb800053d7153dc51c1a19ec.png');
+  background-image: url('./assets/images/photo-1536620752150-a7e9e62a62ee.webp');
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -17,4 +17,9 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+.mat-toolbar.mat-primary {
+  background: transparent;
+  color: #915856;
 }

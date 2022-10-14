@@ -16,7 +16,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
       })),
       state('active', style({
         transform: 'scale(1.05)',
-        'background-color': `rgb(201,157,242)`,
+        'background-color': `#BD8270`,
         'z-index': 2
       })),
       transition('default => active', [
@@ -25,6 +25,18 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
       transition('active => default', [
         animate('500ms ease-in-out')
       ]),
+      transition(':enter', [
+        style({
+          transform: 'translateX(-100%)',
+          opacity: 0,
+          'background-color': `#BD8270`,
+        }),
+        animate('400ms ease-out', style({
+          transform: 'translateX(0)',
+          opacity: 1,
+          'background-color': 'white',
+        }))
+      ])
     ])
   ]
 })
@@ -49,6 +61,13 @@ export class CommentsComponent implements OnInit {
     if (this.commentCtrl.invalid) {
       return;
     }
+    const maxId = Math.max(...this.comments.map(comment => comment.id));
+    this.comments.unshift({
+      id: maxId+1,
+      comment: this.commentCtrl.value,
+      createdDate: new Date().toISOString(),
+      userId: 1
+    });
     this.newComment.emit(this.commentCtrl.value);
     this.commentCtrl.reset();
   }
