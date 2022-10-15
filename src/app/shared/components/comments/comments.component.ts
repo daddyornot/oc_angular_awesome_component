@@ -1,13 +1,35 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Comment} from "../../../core/models/comment.model";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {
+  animate,
+  animateChild,
+  group,
+  query,
+  sequence,
+  stagger,
+  state,
+  style,
+  transition,
+  trigger, useAnimation
+} from "@angular/animations";
+import {flashAnimation} from "../../animations/flash.animation";
+import {slideAndFadeAnimation} from "../../animations/slide-and-fade.animation";
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss'],
   animations: [
+    trigger('list', [
+      transition(':enter', [
+        query('@listItem', [
+          stagger(100, [
+            animateChild()
+          ])
+        ])
+      ])
+    ]),
     trigger('listItem', [
       state('default', style({
         transform: 'scale(1)',
@@ -26,16 +48,35 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
         animate('500ms ease-in-out')
       ]),
       transition(':enter', [
-        style({
-          transform: 'translateX(-100%)',
-          opacity: 0,
-          'background-color': `#BD8270`,
+        query('.comment-text, .comment-date', [
+          style({
+            opacity: 0,
+          })
+        ]),
+        useAnimation(slideAndFadeAnimation, {
+          params: {
+            time: '500ms',
+            startColor: '#BD8270'
+          }
         }),
-        animate('400ms ease-out', style({
-          transform: 'translateX(0)',
-          opacity: 1,
-          'background-color': 'white',
-        }))
+        group([
+          useAnimation(flashAnimation, {
+            params: {
+              time: "800ms",
+              flashColor: '#BD8270',
+            }
+          }),
+          query('.comment-text', [
+            animate('250ms', style({
+              opacity: 1
+            }))
+          ]),
+          query('.comment-date', [
+            animate('500ms', style({
+              opacity: 1
+            }))
+          ]),
+        ]),
       ])
     ])
   ]
