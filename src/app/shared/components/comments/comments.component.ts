@@ -6,7 +6,6 @@ import {
   animateChild,
   group,
   query,
-  sequence,
   stagger,
   state,
   style,
