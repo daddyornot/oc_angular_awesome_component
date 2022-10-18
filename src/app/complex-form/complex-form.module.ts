@@ -14,7 +14,7 @@ import {ComplexFormServices} from "./services/complex-form.services";
   imports: [
     CommonModule,
     ComplexFormRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
     ComplexFormServices,
