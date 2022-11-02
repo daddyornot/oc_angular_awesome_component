@@ -56,7 +56,8 @@ export class CandidateListComponent implements OnInit {
       searchType$,
       this.candidateService.candidates$
     ]).pipe(
-      map(([search, searchType, candidates]) => candidates.filter(candidate => candidate[searchType]
+      map(([search, searchType, candidates]) => candidates
+        .filter(candidate => candidate[searchType]
         .toLowerCase()
         .includes(search as string)))
     );
